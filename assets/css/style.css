@@ -1,0 +1,10 @@
+#questions {
+    display: none;
+} 
+.main-box {
+    background-color: silver;
+    padding-left: 370px;
+}
+body {
+    background-color: black;
+}
