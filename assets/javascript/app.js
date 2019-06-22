@@ -1,52 +1,55 @@
 $(document).ready(function() {
 $('#start').on('click', function(){
-  document.getElementById('questions').style.display= 'block'; 
-  Decrement();
+  document.getElementById('questions').style.display= 'block';
+  start(); 
 })
-let min = 2;
-let secs = min * 60;
- //countdown function is evoked when page is loaded 
- function countdown() { 
-  setTimeout('Decrement()', 60); 
-} 
- 
-function Decrement() { 
-  if (document.getElementById) { 
-      minutes = document.getElementById("minutes"); 
-      seconds = document.getElementById("seconds"); 
- 
-      if (seconds < 59) { 
-          seconds.value = secs; 
-      }
-      else { 
-          minutes.value = getminutes(); 
-          seconds.value = getseconds(); 
-      } 
-      if (mins < 1) { 
-          minutes.style.color = "red"; 
-          seconds.style.color = "red"; 
-      } 
-      if (mins < 0) { 
-          alert('time up'); 
-          minutes.value = 0; 
-          seconds.value = 0; 
-      } 
-      else { 
-          secs--; 
-          setTimeout('Decrement()', 1000); 
-      } 
-  } 
-} 
+let intervalId;
 
-function getminutes() { 
-  //minutes is seconds divided by 60, rounded down 
-  mins = Math.floor(secs / 60); 
-  return mins; 
-} 
+let clockRunning = false;
+let time = 10;
 
-function getseconds() { 
-  //take minutes remaining (as seconds) away  
-  //from total seconds remaining 
-  return secs - Math.round(mins * 60); 
-} 
-});
+
+$('#time').text(time);
+
+function start() {
+  if (!clockRunning) {
+    intervalId = setInterval(count, 1000);
+    clockRunning = true;
+  }}
+  
+  function count() {
+    time--;
+    let converted = timeConverter(time);
+    // console.log(converted);
+    
+    $("#time").text(converted);
+    if (time === 0) {
+      clockRunning = false;
+      document.getElementById('questions').style.display= 'none';
+      document.getElementById('start').style.display= 'none';
+      let answers = $('<h2>').text('correct').appendto('#answers')
+    }
+  }
+function timeConverter(t) {
+
+  let minutes = Math.floor(t / 60);
+  let seconds = t - (minutes * 60);
+
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+
+  if (minutes === 0) {
+    minutes = "00";
+  }
+  else if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+
+  return minutes + ":" + seconds;
+}
+
+
+
+}
+);
